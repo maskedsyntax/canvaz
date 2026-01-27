@@ -55,8 +55,9 @@ void MainWindow::setupUi() {
     auto *centralWidget = new QWidget(this);
     setCentralWidget(centralWidget);
     auto *mainLayout = new QVBoxLayout(centralWidget);
-    mainLayout->setContentsMargins(10, 10, 10, 10);
-    mainLayout->setSpacing(10);
+    // Increased margins for cleaner look
+    mainLayout->setContentsMargins(20, 20, 20, 20);
+    mainLayout->setSpacing(20);
 
     // Wallpaper View
     wallpaperView = new QListWidget(this);
@@ -71,6 +72,7 @@ void MainWindow::setupUi() {
 
     // Controls Layout
     auto *controlsLayout = new QHBoxLayout();
+    controlsLayout->setSpacing(15);
     
     // Preferences
     prefsBtn = new QPushButton("Preferences", this);

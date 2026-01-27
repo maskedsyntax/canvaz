@@ -4,26 +4,130 @@
 #include <QPalette>
 #include "MainWindow.h"
 
-void setDarkTheme(QApplication& app) {
+#include <QApplication>
+#include <QStyleFactory>
+#include <QFont>
+#include <QPalette>
+#include "MainWindow.h"
+
+void loadStyle(QApplication& app) {
     app.setStyle(QStyleFactory::create("Fusion"));
 
-    QPalette darkPalette;
-    darkPalette.setColor(QPalette::Window, QColor(53, 53, 53));
-    darkPalette.setColor(QPalette::WindowText, Qt::white);
-    darkPalette.setColor(QPalette::Base, QColor(25, 25, 25));
-    darkPalette.setColor(QPalette::AlternateBase, QColor(53, 53, 53));
-    darkPalette.setColor(QPalette::ToolTipBase, Qt::white);
-    darkPalette.setColor(QPalette::ToolTipText, Qt::white);
-    darkPalette.setColor(QPalette::Text, Qt::white);
-    darkPalette.setColor(QPalette::Button, QColor(53, 53, 53));
-    darkPalette.setColor(QPalette::ButtonText, Qt::white);
-    darkPalette.setColor(QPalette::BrightText, Qt::red);
-    darkPalette.setColor(QPalette::Link, QColor(42, 130, 218));
-    darkPalette.setColor(QPalette::Highlight, QColor(42, 130, 218));
-    darkPalette.setColor(QPalette::HighlightedText, Qt::black);
+    // Modern Minimalist Grayscale Theme
+    const QString qss = R"(
+        QMainWindow {
+            background-color: #0d0d0d;
+        }
+        QWidget {
+            color: #e0e0e0;
+            font-family: "Monospace";
+            font-size: 14px;
+        }
+        
+        /* Buttons */
+        QPushButton {
+            background-color: #1a1a1a;
+            border: 1px solid #333333;
+            border-radius: 3px;
+            padding: 8px 16px;
+            color: #ffffff;
+            font-weight: bold;
+        }
+        QPushButton:hover {
+            background-color: #333333;
+            border-color: #555555;
+            color: #ffffff;
+        }
+        QPushButton:pressed {
+            background-color: #000000;
+            border-color: #1a1a1a;
+        }
+        QPushButton:disabled {
+            background-color: #121212;
+            color: #444444;
+            border-color: #222222;
+        }
 
-    app.setPalette(darkPalette);
-    app.setStyleSheet("QToolTip { color: #ffffff; background-color: #2a82da; border: 1px solid white; }");
+        /* Combo Box */
+        QComboBox {
+            background-color: #1a1a1a;
+            border: 1px solid #333333;
+            border-radius: 3px;
+            padding: 6px 12px;
+            color: #ffffff;
+        }
+        QComboBox::drop-down {
+            subcontrol-origin: padding;
+            subcontrol-position: top right;
+            width: 20px;
+            border-left: 1px solid #333333;
+        }
+        QComboBox QAbstractItemView {
+            background-color: #1a1a1a;
+            border: 1px solid #333333;
+            selection-background-color: #333333;
+            color: #ffffff;
+            outline: none;
+        }
+
+        /* List Widget */
+        QListWidget {
+            background-color: #050505;
+            border: 1px solid #222222;
+            border-radius: 4px;
+            outline: none;
+            padding: 5px;
+        }
+        QListWidget::item {
+            border-radius: 2px;
+            padding: 5px;
+            margin: 2px;
+            color: #aaaaaa;
+        }
+        QListWidget::item:selected {
+            background-color: #ffffff;
+            color: #000000;
+            font-weight: bold;
+        }
+        QListWidget::item:hover {
+            background-color: #222222;
+            color: #ffffff;
+        }
+
+        /* Scrollbars */
+        QScrollBar:vertical {
+            border: none;
+            background: #050505;
+            width: 8px;
+            margin: 0px;
+        }
+        QScrollBar::handle:vertical {
+            background: #333333;
+            min-height: 20px;
+            border-radius: 4px;
+        }
+        QScrollBar::handle:vertical:hover {
+            background: #444444;
+        }
+
+        /* Dialogs */
+        QDialog {
+            background-color: #0d0d0d;
+        }
+        QLabel {
+            color: #ffffff;
+        }
+        
+        /* Tooltips */
+        QToolTip {
+            color: #000000;
+            background-color: #ffffff;
+            border: 1px solid #ffffff;
+            border-radius: 2px;
+        }
+    )";
+
+    app.setStyleSheet(qss);
 }
 
 int main(int argc, char *argv[]) {
@@ -32,13 +136,15 @@ int main(int argc, char *argv[]) {
     // Enforce Monospace font
     QFont font("Monospace");
     font.setStyleHint(QFont::Monospace);
+    // Increase size slightly for readability
+    font.setPointSize(10);
     app.setFont(font);
 
-    setDarkTheme(app);
+    loadStyle(app);
 
     MainWindow window;
     window.setWindowTitle("Canvaz");
-    window.resize(1000, 700);
+    window.resize(1100, 750); // Slightly larger
     window.show();
 
     return app.exec();
