@@ -31,4 +31,22 @@
 *.out
 *.app
 
-notes.txt
+# Build directories
+build/
+bin/
+out/
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+*~
+*.DS_Store
+
+# Python (Legacy/Scripts)
+__pycache__/
+*.py[cod]
+venv/
+.env
+
+notes.txtGEMINI.md

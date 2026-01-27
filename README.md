@@ -1,4 +1,3 @@
-
 <p align="center">
   <img src="./docs/images/canvaz.svg" alt="Canvaz Logo" width="150" />
 </p>
@@ -9,67 +8,58 @@
   <b> A modern wallpaper companion for Linux desktops </b>
 </p>
 
-
-
 <p align="center">
   <img src="https://img.shields.io/badge/Platform-Linux-blue" />
-  <img src="https://img.shields.io/badge/Built_with-Python-blueviolet" />
-  <img src="https://img.shields.io/badge/UI-GTK-8bc34a" />
+  <img src="https://img.shields.io/badge/Built_with-Qt6_%26_C++-green" />
   <img src="https://img.shields.io/badge/License-MIT-green" />
 </p>
-<p align="center">
-  <img src="https://img.shields.io/badge/Status-In_Development-critical" />
-</p>
-
 
 ---
-
-
 
 ## Overview
 
-**Canvaz** is a lightweight, GTK-based wallpaper manager built with Python for Linux desktops.  
-Inspired by tools like Nitrogen but architected from scratch, Canvaz goes further:
-
-- Set wallpapers effortlessly
-- Fetch stunning images from online sources
-- Rotate wallpapers automatically (daily or on demand)
-- Manage your local wallpaper library with ease
-
-It’s **not a fork** — this is a fresh and evolving project focused on giving users control and customization without clutter.
-
----
+**Canvaz** is a modern, lightweight wallpaper manager built with C++ and Qt.  
+Inspired by `nitrogen`, it provides a clean, dark-themed interface to manage your desktop backgrounds efficiently.
 
 ## Features
 
-- **Fast local wallpaper setting** for X11 and (in the future) Wayland
-- **Time-based wallpaper rotation** (e.g., change every day at midnight)
-- **Online wallpaper fetching** from APIs like Unsplash or Reddit
-- **Simple, native GTK UI** with responsive layout
-- **Linux-only by design**, avoiding cross-platform complexity
-- **Written in Python**, modular and easy to hack on
+- **Multi-Monitor Support**: Independently set wallpapers for Screen 1, Screen 2, or both.
+- **Scaling Options**: Automatic, Scaled, Centered, Tiled, Zoomed, Zoomed Fill.
+- **Color Background**: Option to set a solid color background.
+- **Library Management**: Add multiple directory paths to scan for wallpapers.
+- **High Performance**: Asynchronous image scanning and thumbnail generation for instant startup times.
+- **Online Fetching**: Download random wallpapers from the web.
+- **Native Backend**:
+  - **GNOME/Unity/Cinnamon**: Seamless integration via `gsettings`.
+  - **X11 (i3, bspwm, etc.)**: **Native implementation** using X11 libraries (no external dependencies like `feh` or `nitrogen` required).
 
----
+## Build & Install
 
-## Status
+### Requirements
+- Qt 6 (Widgets, Gui, Core, Network)
+- CMake
+- A C++17 compiler
+- X11 development libraries (`libx11-dev`)
 
-🚧 This project is currently **in development**.  
-If you’re interested in contributing, testing, or just curious — feel free to star the repo and follow along!
+### Building
 
----
+```bash
+mkdir build
+cd build
+cmake ..
+make
+```
+
+### Running
+
+```bash
+./build/canvaz
+```
+
+## Legacy
+
+The original Python/GTK and C/GTK prototypes have been moved to the `legacy/` directory.
 
 ## License
 
-This project is licensed under the MIT License.  
-Free to use, modify, and distribute.
-
----
-
-## Contribute
-
-Pull requests, issues, and suggestions are always welcome!  
-
----
-
-**Canvaz** — _because your desktop deserves more than just a static background._
-
+MIT License.
