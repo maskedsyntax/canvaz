@@ -8,6 +8,8 @@
 #include <QStyleFactory>
 #include <QFont>
 #include <QPalette>
+#include <QFontDatabase>
+#include <QDebug>
 #include "MainWindow.h"
 
 void loadStyle(QApplication& app) {
@@ -20,7 +22,7 @@ void loadStyle(QApplication& app) {
         }
         QWidget {
             color: #e0e0e0;
-            font-family: "Monospace";
+            font-family: "JetBrains Mono", "Monospace";
             font-size: 14px;
         }
         
@@ -133,10 +135,21 @@ void loadStyle(QApplication& app) {
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
 
-    // Enforce Monospace font
-    QFont font("Monospace");
+    // Load Custom Font
+    int fontId = QFontDatabase::addApplicationFont(":/fonts/JetBrainsMono-Regular.ttf");
+    QString fontFamily = "Monospace"; // Fallback
+    if (fontId != -1) {
+        QStringList fontFamilies = QFontDatabase::applicationFontFamilies(fontId);
+        if (!fontFamilies.isEmpty()) {
+            fontFamily = fontFamilies.first();
+        }
+    } else {
+        qWarning() << "Failed to load custom font";
+    }
+
+    // Set Application Font
+    QFont font(fontFamily);
     font.setStyleHint(QFont::Monospace);
-    // Increase size slightly for readability
     font.setPointSize(10);
     app.setFont(font);
 
@@ -144,7 +157,7 @@ int main(int argc, char *argv[]) {
 
     MainWindow window;
     window.setWindowTitle("Canvaz");
-    window.resize(1100, 750); // Slightly larger
+    window.resize(1100, 750);
     window.show();
 
     return app.exec();
