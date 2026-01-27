@@ -2,12 +2,6 @@
 #include <QStyleFactory>
 #include <QFont>
 #include <QPalette>
-#include "MainWindow.h"
-
-#include <QApplication>
-#include <QStyleFactory>
-#include <QFont>
-#include <QPalette>
 #include <QFontDatabase>
 #include <QDebug>
 #include "MainWindow.h"
@@ -67,8 +61,9 @@ void loadStyle(QApplication& app) {
         QComboBox QAbstractItemView {
             background-color: #1a1a1a;
             border: 1px solid #333333;
-            selection-background-color: #333333;
             color: #ffffff;
+            selection-background-color: #ffffff;
+            selection-color: #000000;
             outline: none;
         }
 
