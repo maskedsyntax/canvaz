@@ -58,6 +58,18 @@ void loadStyle(QApplication& app) {
             width: 20px;
             border-left: 1px solid #333333;
         }
+        QComboBox::down-arrow {
+            /* Optional: Custom arrow or just leave default/empty */
+            /* image: url(:/icons/down_arrow.png); */
+            width: 0; 
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid #ffffff;
+            margin: 2px;
+        }
+        
+        /* Combo Box Dropdown List */
         QComboBox QAbstractItemView {
             background-color: #1a1a1a;
             border: 1px solid #333333;
@@ -65,6 +77,16 @@ void loadStyle(QApplication& app) {
             selection-background-color: #ffffff;
             selection-color: #000000;
             outline: none;
+        }
+        
+        /* Item Styles - Focus on :selected which captures hover in dropdowns */
+        QComboBox QAbstractItemView::item {
+            min-height: 24px;
+            padding: 4px 8px;
+        }
+        QComboBox QAbstractItemView::item:selected {
+            background-color: #ffffff;
+            color: #000000;
         }
 
         /* List Widget */
