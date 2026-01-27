@@ -56,10 +56,6 @@ make
 ./build/canvaz
 ```
 
-## Legacy
-
-The original Python/GTK and C/GTK prototypes have been moved to the `legacy/` directory.
-
 ## License
 
 MIT License.
