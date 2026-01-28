@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>fonts/JetBrainsMono-Regular.ttf</file>
+        <file>icons/canvaz.svg</file>
     </qresource>
 </RCC>

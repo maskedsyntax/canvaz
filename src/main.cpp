@@ -151,6 +151,7 @@ void loadStyle(QApplication& app) {
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
+    app.setWindowIcon(QIcon(":/icons/canvaz.svg"));
 
     // Load Custom Font
     int fontId = QFontDatabase::addApplicationFont(":/fonts/JetBrainsMono-Regular.ttf");
