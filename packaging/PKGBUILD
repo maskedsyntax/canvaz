@@ -1,0 +1,23 @@
+# Maintainer: MaskedSyntax
+pkgname=canvaz
+pkgver=0.1.0
+pkgrel=1
+pkgdesc="A modern wallpaper companion for Linux desktops"
+arch=('x86_64')
+url="https://github.com/maskedsyntax/canvaz"
+license=('MIT')
+depends=('qt6-base' 'libx11')
+makedepends=('cmake' 'qt6-tools')
+source=("${pkgname}-${pkgver}.tar.gz") # Update this when releasing
+sha256sums=('SKIP')
+
+build() {
+    cmake -B build -S . \
+        -DCMAKE_BUILD_TYPE='Release' \
+        -DCMAKE_INSTALL_PREFIX='/usr'
+    cmake --build build
+}
+
+package() {
+    DESTDIR="$pkgdir" cmake --install build
+}

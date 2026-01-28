@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Canvaz
+Comment=Modern Wallpaper Manager
+Exec=canvaz
+Icon=canvaz
+Categories=Utility;DesktopSettings;
+Terminal=false
