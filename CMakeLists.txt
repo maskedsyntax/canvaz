@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(canvaz VERSION 0.1.0 LANGUAGES CXX)
+project(canvaz VERSION 0.2.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -28,7 +28,7 @@ install(FILES docs/images/canvaz.svg DESTINATION share/icons/hicolor/scalable/ap
 set(CPACK_PACKAGE_NAME "canvaz")
 set(CPACK_PACKAGE_VENDOR "MaskedSyntax")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "A modern wallpaper companion for Linux desktops")
-set(CPACK_PACKAGE_VERSION "0.1.0")
+set(CPACK_PACKAGE_VERSION "0.2.0")
 set(CPACK_PACKAGE_CONTACT "MaskedSyntax")
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
 set(CPACK_STRIP_FILES TRUE)

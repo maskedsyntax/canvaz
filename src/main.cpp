@@ -156,7 +156,7 @@ int main(int argc, char *argv[]) {
 
     app.setApplicationName("Canvaz");
 
-    app.setApplicationVersion("0.1.0");
+    app.setApplicationVersion("0.2.0");
 
     app.setWindowIcon(QIcon(":/icons/canvaz.svg"));
 
