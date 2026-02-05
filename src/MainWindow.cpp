@@ -330,8 +330,8 @@ void setX11Wallpaper(const QString &path1, const QString &path2, const QColor &b
 }
 
 void MainWindow::onApply() {
-    QString mode = scalingCombo->currentText();
-    QString monitor = monitorCombo->currentText();
+    lastScalingMode = scalingCombo->currentText();
+    lastMonitorConfig = monitorCombo->currentText();
     
     QString filePath;
     bool useImage = false;
@@ -345,23 +345,25 @@ void MainWindow::onApply() {
         }
     }
     
-    qDebug() << "Applying Wallpaper (Native):" << (useImage ? filePath : "Solid Color");
-
     // Update State
     if (useImage) {
-        if (monitor == "Screen 1") screen1Path = filePath;
-        else if (monitor == "Screen 2") screen2Path = filePath;
-        else if (monitor == "Both Screens") { screen1Path = filePath; screen2Path = filePath; }
-        else if (monitor == "Full Screen") { screen1Path = filePath; screen2Path = filePath; }
+        if (lastMonitorConfig == "Screen 1") screen1Path = filePath;
+        else if (lastMonitorConfig == "Screen 2") screen2Path = filePath;
+        else if (lastMonitorConfig == "Both Screens") { screen1Path = filePath; screen2Path = filePath; }
+        else if (lastMonitorConfig == "Full Screen") { screen1Path = filePath; screen2Path = filePath; }
     } else {
-        // If applying color, clear the paths for selected monitors?
-        // Or keep paths but they won't be used if we are in Color Mode for that session?
-        // The implementation of setX11Wallpaper takes paths. If we want pure color, we pass empty paths.
-        if (monitor == "Screen 1") screen1Path = "";
-        else if (monitor == "Screen 2") screen2Path = "";
-        else if (monitor == "Both Screens") { screen1Path = ""; screen2Path = ""; }
-        else if (monitor == "Full Screen") { screen1Path = ""; screen2Path = ""; }
+        if (lastMonitorConfig == "Screen 1") screen1Path = "";
+        else if (lastMonitorConfig == "Screen 2") screen2Path = "";
+        else if (lastMonitorConfig == "Both Screens") { screen1Path = ""; screen2Path = ""; }
+        else if (lastMonitorConfig == "Full Screen") { screen1Path = ""; screen2Path = ""; }
     }
+
+    applyWallpaper();
+    saveSettings();
+}
+
+void MainWindow::applyWallpaper() {
+    qDebug() << "Applying Wallpaper:" << screen1Path << "|" << screen2Path << "Mode:" << lastScalingMode;
 
     // Backend Execution
     QString currentDesktop = qgetenv("XDG_CURRENT_DESKTOP").toUpper();
@@ -369,12 +371,16 @@ void MainWindow::onApply() {
     if (currentDesktop.contains("GNOME") || currentDesktop.contains("UNITY") || currentDesktop.contains("CINNAMON")) {
          // GNOME Implementation
          QString gsettingsMode = "zoom"; 
-         if (mode == "Centered") gsettingsMode = "centered";
-         else if (mode == "Scaled") gsettingsMode = "scaled";
-         else if (mode == "Tiled") gsettingsMode = "wallpaper";
-         else if (mode == "Automatic") gsettingsMode = "zoom";
+         if (lastScalingMode == "Centered") gsettingsMode = "centered";
+         else if (lastScalingMode == "Scaled") gsettingsMode = "scaled";
+         else if (lastScalingMode == "Tiled") gsettingsMode = "wallpaper";
+         else if (lastScalingMode == "Automatic") gsettingsMode = "zoom";
 
-         if (!useImage) {
+         // Note: GNOME doesn't easily support different wallpapers per screen via gsettings natively 
+         // without extra tools or complex script, so we use screen1Path as primary.
+         QString filePath = screen1Path.isEmpty() ? screen2Path : screen1Path;
+
+         if (filePath.isEmpty()) {
              QProcess::startDetached("gsettings", {"set", "org.gnome.desktop.background", "picture-uri", ""});
              QProcess::startDetached("gsettings", {"set", "org.gnome.desktop.background", "picture-uri-dark", ""});
              QProcess::startDetached("gsettings", {"set", "org.gnome.desktop.background", "primary-color", currentColor.name()});
@@ -385,9 +391,13 @@ void MainWindow::onApply() {
          }
     } else {
         // Native X11
-        bool fullScreen = (monitor == "Full Screen");
-        setX11Wallpaper(screen1Path, screen2Path, currentColor, mode, true, fullScreen);
+        bool fullScreen = (lastMonitorConfig == "Full Screen");
+        setX11Wallpaper(screen1Path, screen2Path, currentColor, lastScalingMode, true, fullScreen);
     }
+}
+
+void MainWindow::restoreWallpaper() {
+    applyWallpaper();
 }
 
 void MainWindow::loadSettings() {
@@ -402,10 +412,21 @@ void MainWindow::loadSettings() {
         colorBtn->setStyleSheet(QString("background-color: %1; color: %2").arg(currentColor.name()).arg(
             currentColor.lightness() > 128 ? "black" : "white"
         ));
+    } else {
+        currentColor = Qt::black; // Default
     }
     
     screen1Path = settings.value("screen1Path").toString();
     screen2Path = settings.value("screen2Path").toString();
+    lastScalingMode = settings.value("scalingMode", "Zoomed Fill").toString();
+    lastMonitorConfig = settings.value("monitorConfig", "Both Screens").toString();
+
+    // Update UI to match loaded settings
+    int scaleIdx = scalingCombo->findText(lastScalingMode);
+    if (scaleIdx != -1) scalingCombo->setCurrentIndex(scaleIdx);
+
+    int monitorIdx = monitorCombo->findText(lastMonitorConfig);
+    if (monitorIdx != -1) monitorCombo->setCurrentIndex(monitorIdx);
 }
 
 void MainWindow::saveSettings() {
@@ -416,6 +437,8 @@ void MainWindow::saveSettings() {
     settings.setValue("colorB", currentColor.blue());
     settings.setValue("screen1Path", screen1Path);
     settings.setValue("screen2Path", screen2Path);
+    settings.setValue("scalingMode", lastScalingMode);
+    settings.setValue("monitorConfig", lastMonitorConfig);
 }
 
 void MainWindow::refreshWallpapers() {

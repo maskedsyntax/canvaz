@@ -4,6 +4,7 @@
 #include <QPalette>
 #include <QFontDatabase>
 #include <QDebug>
+#include <QCommandLineParser>
 #include "MainWindow.h"
 
 void loadStyle(QApplication& app) {
@@ -150,33 +151,99 @@ void loadStyle(QApplication& app) {
 }
 
 int main(int argc, char *argv[]) {
+
     QApplication app(argc, argv);
+
+    app.setApplicationName("Canvaz");
+
+    app.setApplicationVersion("0.1.0");
+
     app.setWindowIcon(QIcon(":/icons/canvaz.svg"));
 
-    // Load Custom Font
-    int fontId = QFontDatabase::addApplicationFont(":/fonts/JetBrainsMono-Regular.ttf");
-    QString fontFamily = "Monospace"; // Fallback
-    if (fontId != -1) {
-        QStringList fontFamilies = QFontDatabase::applicationFontFamilies(fontId);
-        if (!fontFamilies.isEmpty()) {
-            fontFamily = fontFamilies.first();
-        }
-    } else {
-        qWarning() << "Failed to load custom font";
+
+
+    QCommandLineParser parser;
+
+    parser.setApplicationDescription("Canvaz - A minimalist wallpaper manager for Linux");
+
+    parser.addHelpOption();
+
+    parser.addVersionOption();
+
+
+
+    QCommandLineOption restoreOption("restore", "Restore the last set wallpaper and exit.");
+
+    parser.addOption(restoreOption);
+
+
+
+    parser.process(app);
+
+
+
+    if (parser.isSet(restoreOption)) {
+
+        MainWindow window;
+
+        window.restoreWallpaper();
+
+        return 0; // Exit after restoring
+
     }
 
+
+
+    // Load Custom Font
+
+    int fontId = QFontDatabase::addApplicationFont(":/fonts/JetBrainsMono-Regular.ttf");
+
+    QString fontFamily = "Monospace"; // Fallback
+
+    if (fontId != -1) {
+
+        QStringList fontFamilies = QFontDatabase::applicationFontFamilies(fontId);
+
+        if (!fontFamilies.isEmpty()) {
+
+            fontFamily = fontFamilies.first();
+
+        }
+
+    } else {
+
+        qWarning() << "Failed to load custom font";
+
+    }
+
+
+
     // Set Application Font
+
     QFont font(fontFamily);
+
     font.setStyleHint(QFont::Monospace);
+
     font.setPointSize(10);
+
     app.setFont(font);
+
+
 
     loadStyle(app);
 
+
+
     MainWindow window;
+
     window.setWindowTitle("Canvaz");
+
     window.resize(1100, 750);
+
     window.show();
 
+
+
     return app.exec();
+
 }

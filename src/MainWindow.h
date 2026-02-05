@@ -18,6 +18,7 @@ class MainWindow : public QMainWindow {
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override;
+    void restoreWallpaper();
 
 private slots:
     void onPreferences();
@@ -40,6 +41,7 @@ private:
     void loadSettings();
     void saveSettings();
     void startScanning();
+    void applyWallpaper();
 
     QListWidget *wallpaperView;
     QComboBox *monitorCombo;
@@ -59,4 +61,6 @@ private:
     QColor currentColor;
     QString screen1Path;
     QString screen2Path;
+    QString lastScalingMode;
+    QString lastMonitorConfig;
 };
