@@ -28,10 +28,47 @@ Inspired by `nitrogen`, it provides a clean, dark-themed interface to manage you
 - **Color Background**: Option to set a solid color background.
 - **Library Management**: Add multiple directory paths to scan for wallpapers.
 - **High Performance**: Asynchronous image scanning and thumbnail generation for instant startup times.
+- **Persistence**: Restore your wallpaper settings across sessions using the `--restore` flag.
 - **Online Fetching**: Download random wallpapers from the web.
 - **Native Backend**:
   - **GNOME/Unity/Cinnamon**: Seamless integration via `gsettings`.
   - **X11 (i3, bspwm, etc.)**: **Native implementation** using X11 libraries (no external dependencies like `feh` or `nitrogen` required).
+
+## Installation
+
+### Pre-built Packages
+You can download the latest packages from the [Releases](https://github.com/maskedsyntax/canvaz/releases) page.
+
+#### Debian/Ubuntu
+```bash
+sudo apt install ./canvaz-0.2.0-Linux.deb
+```
+
+#### Fedora/RHEL
+```bash
+sudo dnf install ./canvaz-0.2.0-1.x86_64.rpm
+```
+
+### Arch Linux
+A `PKGBUILD` is available in the releases. To build and install:
+```bash
+mkdir canvaz-pkg && cd canvaz-pkg
+wget https://github.com/maskedsyntax/canvaz/releases/download/v0.2.0/PKGBUILD
+makepkg -si
+```
+
+## Usage
+
+### Launching the GUI
+```bash
+canvaz
+```
+
+### Restoring Wallpaper (Session Startup)
+To automatically restore your wallpaper when you log in (e.g., in your `.xinitrc` or WM config), run:
+```bash
+canvaz --restore
+```
 
 ## Build & Install
 
