@@ -178,19 +178,51 @@ int main(int argc, char *argv[]) {
 
 
 
-    parser.process(app);
+        parser.process(app);
 
 
 
-    if (parser.isSet(restoreOption)) {
+    
 
-        MainWindow window;
 
-        window.restoreWallpaper();
 
-        return 0; // Exit after restoring
+        if (parser.isSet(restoreOption)) {
 
-    }
+
+
+            qDebug() << "Restore option detected. Restoring wallpaper...";
+
+
+
+            MainWindow window;
+
+
+
+            window.restoreWallpaper();
+
+
+
+            qDebug() << "Restore complete. Exiting.";
+
+
+
+            return 0; 
+
+
+
+        }
+
+
+
+    
+
+
+
+        qDebug() << "No restore option. Starting GUI...";
+
+
+
+    
 
 
 
