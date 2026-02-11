@@ -168,25 +168,33 @@ int main(int argc, char *argv[]) {
 
     parser.addHelpOption();
 
-    parser.addVersionOption();
-
-
-
-    QCommandLineOption restoreOption("restore", "Restore the last set wallpaper and exit.");
-
-    parser.addOption(restoreOption);
-
-
-
-        parser.process(app);
-
-
+        parser.addVersionOption();
 
     
 
+        QCommandLineOption restoreOption("restore", "Restore the last set wallpaper and exit.");
 
+        parser.addOption(restoreOption);
+
+    
+
+        parser.process(app);
+
+    
+
+        if (parser.isSet("version")) {
+
+            printf("%s %s\n", qPrintable(app.applicationName()), qPrintable(app.applicationVersion()));
+
+            return 0;
+
+        }
+
+    
 
         if (parser.isSet(restoreOption)) {
+
+    
 
 
 

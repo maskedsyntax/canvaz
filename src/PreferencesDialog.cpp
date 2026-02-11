@@ -26,6 +26,10 @@ PreferencesDialog::PreferencesDialog(QWidget *parent) : QDialog(parent) {
     layout->addLayout(btnLayout);
 
     auto *dialogBtnLayout = new QHBoxLayout();
+    QLabel *verLabel = new QLabel("Version: 0.2.0", this);
+    verLabel->setStyleSheet("color: #666666; font-size: 11px;");
+    dialogBtnLayout->addWidget(verLabel);
+    dialogBtnLayout->addStretch();
     okBtn = new QPushButton("OK", this);
     cancelBtn = new QPushButton("Cancel", this);
     dialogBtnLayout->addStretch();
